@@ -70,6 +70,15 @@ affinity:
         - matchExpressions:
             - key: karpenter.sh/provisioner-name
               operator: DoesNotExist
+  podAntiAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+    - labelSelector:
+        matchExpressions:
+        - key: name
+          operator: In
+          values:
+          - karpenter
+      topologyKey: "kubernetes.io/hostname"
 # -- topologySpreadConstraints to increase the controller resilience
 topologySpreadConstraints:
   - maxSkew: 1
